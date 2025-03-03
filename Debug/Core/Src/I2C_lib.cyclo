@@ -1,0 +1,5 @@
+../Core/Src/I2C_lib.c:4:6:I2C1_MasterInit	1
+../Core/Src/I2C_lib.c:32:6:I2C1_start	2
+../Core/Src/I2C_lib.c:41:6:I2C1_address	3
+../Core/Src/I2C_lib.c:52:6:I2C1_send	3
+../Core/Src/I2C_lib.c:60:6:I2C1_stop	1

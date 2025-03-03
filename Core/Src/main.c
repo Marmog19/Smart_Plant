@@ -9,7 +9,7 @@
 //
 // - The Air Temperature & Humidity Digital Sensor with I2C
 //
-//   The I2C is connected with 2 external pull-up resistors (4.7k)
+//   The I2C pins are connected with 2 external pull-up resistors (4.7k)
 // And then send the data to the Display via I2C
 // All of these external modules will be powered by the Microcontroller
 
@@ -32,6 +32,12 @@ int main(void){
 void GPIO_init(void) {
 	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOBEN; // enable GPIOB
 
+	// Power
+	GPIOB->MODER |= (1 << (POWER_PIN*2)); // output mode
+	GPIOB->OTYPER &= ~(1 << POWER_PIN); // push-pull
+	GPIOB->OSPEEDR |= (3 << (POWER_PIN*2)); // Fast Speed
+
+	// I2C1
 	GPIOB->MODER |= (2 << (I2C1_SCL*2)) | (2 << (I2C1_SDA*2)); // Alt function mode
 	GPIOB->AFR[1] |= (0b0100 << 0) | (0b0100 << 4); // I2C Alt function
 	GPIOB->OTYPER |= (1 << I2C1_SCL) | (1 << I2C1_SDA); // Open Drain

@@ -12,6 +12,7 @@
 // GPIOB
 #define I2C1_SCL 8
 #define I2C1_SDA 9
+#define POWER_PIN 0
 
 
 void GPIO_init(void);
