@@ -1,3 +1,0 @@
-../Core/Src/SysTickDelay.c:8:6:SysTick_Init	4	static
-../Core/Src/SysTickDelay.c:15:6:SysTick_Delay	16	static
-../Core/Src/SysTickDelay.c:23:6:SysTick_Delay10ms	24	static
