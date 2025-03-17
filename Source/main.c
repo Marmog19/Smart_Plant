@@ -42,4 +42,5 @@ void GPIO_init(void) {
 	GPIOB->AFR[1] |= (0b0100 << 0) | (0b0100 << 4); // I2C Alt function
 	GPIOB->OTYPER |= (1 << I2C1_SCL) | (1 << I2C1_SDA); // Open Drain
 	GPIOB->OSPEEDR |= (3 << (I2C1_SCL*2)) | (3 << (I2C1_SDA*2)); // Fast Speed
+	GPIOB->PUPDR |= (1 << (I2C1_SCL*2)) | (1 << (I2C1_SDA*2)); // Pull-Up
 }
