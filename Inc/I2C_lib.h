@@ -4,7 +4,7 @@
 #include "main.h"
 
 #define CLOCK_FREQ 0x10		// Frequency (MHz) = SystemCoreClock (16MHz)
-#define T_RISE 300			// Max Rise time (ns)
+#define T_RISE 0x06			// Max Rise time (ns)
 
 //In Master mode, the I2C interface initiates a data transfer and generates the clock signal. A
 //serial data transfer always begins with a Start condition and ends with a Stop condition.
@@ -27,5 +27,8 @@ void I2C1_send(uint8_t);
 
 // Ends the I2C transmission
 void I2C1_stop(void);
+
+// write algorithm
+void I2C1_Write (uint8_t, uint8_t, uint8_t);
 
 #endif /* __INC_I2C_LIB_H */

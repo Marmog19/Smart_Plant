@@ -19,10 +19,9 @@ int main(void){
 	GPIO_init();
 	I2C1_MasterInit();
 
-	I2C1_start();
-	I2C1_address(DISPLAY_ADRESS);
-	I2C1_send(0); // write request
-	I2C1_send(0b00001111); // display ON
+	// display ON
+	I2C1_Write(DISPLAY_ADRESS, 0, 0b00001111);
+	Display_Show("test");
 
     /* Loop forever */
 	while(1){
@@ -30,17 +29,34 @@ int main(void){
 }
 
 void GPIO_init(void) {
-	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOBEN; // enable GPIOB
+	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOBEN; // Enable GPIOB
+	RCC->APB1ENR |= RCC_APB1ENR_I2C1EN; // Enable I2C1
 
 	// Power
 	GPIOB->MODER |= (1 << (POWER_PIN*2)); // output mode
 	GPIOB->OTYPER &= ~(1 << POWER_PIN); // push-pull
-	GPIOB->OSPEEDR |= (3 << (POWER_PIN*2)); // Fast Speed
+	GPIOB->ODR |= (1 << POWER_PIN); // Initializes as HIGH
 
 	// I2C1
 	GPIOB->MODER |= (2 << (I2C1_SCL*2)) | (2 << (I2C1_SDA*2)); // Alt function mode
-	GPIOB->AFR[1] |= (0b0100 << 0) | (0b0100 << 4); // I2C Alt function
 	GPIOB->OTYPER |= (1 << I2C1_SCL) | (1 << I2C1_SDA); // Open Drain
 	GPIOB->OSPEEDR |= (3 << (I2C1_SCL*2)) | (3 << (I2C1_SDA*2)); // Fast Speed
-	GPIOB->PUPDR |= (1 << (I2C1_SCL*2)) | (1 << (I2C1_SDA*2)); // Pull-Up
+	GPIOB->AFR[1] |= (4 << 0) | (4 << 4); // I2C Alt function
+	//GPIOB->PUPDR |= (1 << (I2C1_SCL*2)) | (1 << (I2C1_SDA*2)); // Pull-Up
+}
+
+// Send string to Display
+void Display_Show(unsigned char *text) {
+	int n;
+
+	I2C1_start();
+	I2C1_address(DISPLAY_ADRESS); //0x78
+	I2C1_send(0x40); // Address to show on screen
+
+	for(n=0;n<20;n++){
+		I2C1_send(*text);
+		++text;
+	}
+
+	I2C1_stop();
 }

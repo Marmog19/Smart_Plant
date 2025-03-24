@@ -16,5 +16,6 @@
 
 
 void GPIO_init(void);
+void Display_Show(unsigned char *);
 
 #endif /* __MAIN_H */
